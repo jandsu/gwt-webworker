@@ -16,7 +16,8 @@ dependencies {
     gwtDev "com.google.gwt:gwt-dev:${gwtVersion}"
 }
 clean {
-    delete "${gwtOutFolder}/mywebworker"
+    delete "${gwtOutFolder}"
+    delete "web/gwt-unitCache"
 }
 // =========================================
 // Custom task for GWT compilation

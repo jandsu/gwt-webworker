@@ -8,12 +8,11 @@ import com.google.gwt.core.client.EntryPoint;
 public class MyWebWorkerEntryPoint
     implements EntryPoint
 {
-    private static final Logger LOGGER = Logger.getLogger( MyWebWorkerEntryPoint.class.getSimpleName() );
+    private int offset = 0;    
 
     @Override
     public void onModuleLoad()
     {
-        LOGGER.info( "Loading web worker!" );
         initialize();
     }
     
@@ -22,7 +21,6 @@ public class MyWebWorkerEntryPoint
         self.addEventListener('message', function(e) {
               console.log("Received message in web worker");
               that.@com.example.webworker.MyWebWorkerEntryPoint::onMessage(Ljava/lang/String;)(e.data);
-              self.postMessage('Message ACK from web worker');
         }, false);
     }-*/;
 
@@ -33,17 +31,19 @@ public class MyWebWorkerEntryPoint
     
     void onMessage( String message )
     {
+        int count = 50;
         MyWorkerMessage msg = new MyWorkerMessage();
         msg.code = "OK";
-        msg.payload = createBuffer(50);
+        msg.payload = createBuffer(count, offset);
         postMessage( msg );
+        offset += count;
     }
 
-    private static final native GwtUint16Array createBuffer( int pointsCount ) /*-{
+    private static final native GwtUint16Array createBuffer( int pointsCount, int valueOffset ) /*-{
         var buf = new Uint16Array(pointsCount);
         var i;
         for ( i = 0; i < pointsCount; i++) {
-            buf[i] = i;
+            buf[i] = valueOffset + i;
         }
         return buf;
     }-*/;
