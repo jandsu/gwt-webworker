@@ -1,0 +1,26 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+/web/node_modules
+
+# Eclipse
+/.project
+/.classpath
+/*.launch
+/.settings/
+/bin/
+
+#System Files
+.DS_Store
+Thumbs.db
+
+# Gradle
+/.gradle/
+/build/
+
+# GWT output
+/web/gwt
+/web/gwt-unitCache/
+
+# https://github.com/georgewfraser/vscode-javac
+/javac-services.*
+/javaconfig.json

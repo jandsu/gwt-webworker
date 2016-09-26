@@ -1,0 +1,65 @@
+apply plugin: 'java';
+
+import org.gradle.api.DefaultTask;
+import org.gradle.api.tasks.TaskAction;
+ext {
+    gwtVersion = '2.8.0-beta1'
+    gwtOutFolder = 'web/gwt'
+}
+configurations {
+    gwt
+    gwtDev
+}
+configurations.compile.extendsFrom configurations.gwt, configurations.gwtDev
+dependencies {
+    gwt "com.google.gwt:gwt-user:${gwtVersion}"
+    gwtDev "com.google.gwt:gwt-dev:${gwtVersion}"
+}
+clean {
+    delete "${gwtOutFolder}/mywebworker"
+}
+// =========================================
+// Custom task for GWT compilation
+// =========================================
+class CompileGwt extends DefaultTask {
+    @Input String module
+   
+    CompileGwt() {
+        description = 'GWT compilation'
+        group = 'GWT'
+        project.afterEvaluate {
+            inputs.dir       project.sourceSets.main.allSource.srcDirs
+            inputs.files     project.configurations.gwt
+            
+            outputs.dir project.file(project.gwtOutFolder)
+        }
+    }
+    @TaskAction
+    void start() {
+        logger.quiet "Compiling ${module}"
+        project.javaexec {
+            main = 'com.google.gwt.dev.Compiler'
+            
+            classpath project.sourceSets.main.allSource.srcDirs
+            classpath project.sourceSets.main.output.classesDir
+            classpath project.configurations.gwt
+            classpath project.configurations.gwtDev
+        
+            args module
+            args '-draftCompile'
+            args '-checkAssertions'
+            args '-style', 'PRETTY'
+            args '-nocompileReport'
+            args '-war', project.gwtOutFolder
+            args '-workDir', "${temporaryDir}/work"
+            args '-extra', "${temporaryDir}/extra"
+            args '-deploy', "${temporaryDir}/deploy"
+            args '-strict'
+            jvmArgs '-Xms256m', '-Xmx2048m', '-Xss1024k'
+        }
+    }
+}
+
+task gwtCompile(type: CompileGwt, dependsOn:[classes]) {
+    module 'com.example.webworker.MyWebWorker'
+}

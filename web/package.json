@@ -1,0 +1,13 @@
+{
+  "name": "gwt-webworker",
+  "version": "1.0.0",
+  "description": "Demonstrates GWT and WebWorkers with JsInterop",
+  "scripts": {
+    "serve": "lite-server"
+  },
+  "author": "Jan Vorwerk",
+  "license": "MIT",
+  "devDependencies": {
+    "lite-server": "^2.2.2"
+  }
+}

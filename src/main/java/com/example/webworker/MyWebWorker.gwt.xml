@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  When updating your version of GWT, you should also update this DTD reference,
+  so that your app can take advantage of the latest GWT module capabilities.
+-->
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.7.0//EN"
+  "http://gwtproject.org/doctype/2.7.0/gwt-module.dtd">
+<module rename-to='mywebworker'>
+  <inherits name="com.google.gwt.core.Core" />
+  <inherits name="com.google.gwt.useragent.UserAgent" />
+  <set-property name='user.agent' value='safari' />
+
+  <!-- Specify the app entry point class.                         -->
+  <entry-point class='com.example.webworker.MyWebWorkerEntryPoint' />
+
+  <!-- Specify the paths for translatable code                    -->
+  <source path=''/>
+
+  <define-linker name="webworker" class="com.example.linker.DedicatedWorkerLinker" />
+  <add-linker name="webworker" />
+  
+</module>
