@@ -3,7 +3,7 @@ apply plugin: 'java';
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 ext {
-    gwtVersion = '2.8.0-beta1'
+    gwtVersion = '2.8.0-rc2'
     gwtOutFolder = 'web/gwt'
 }
 configurations {
@@ -55,6 +55,7 @@ class CompileGwt extends DefaultTask {
             args '-extra', "${temporaryDir}/extra"
             args '-deploy', "${temporaryDir}/deploy"
             args '-strict'
+            args '-generateJsInteropExports'
             jvmArgs '-Xms256m', '-Xmx2048m', '-Xss1024k'
         }
     }
